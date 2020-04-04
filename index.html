@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARONA DESTRUCTION</title>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+  <div id="SplashScreen">
+<h1>CARONA INVASION</h1>
+<h4>In the year 2020 a misterious pandemic broke out. <br>
+    you are the last doctor on the front lines in your small town <br>
+    the only thing that can hold back the virus.... soap ....<br><br><br>
+    use controls A for left and D for right SpaceBAr to throw soap
+   </h4>
+<input id="StartButton" type="button" value="Start"/>
+<label for="#name"> Enter Name
+<input id = 'name' type="text" name="name" placeholder="leaderboard">
+</label>
+<div id="scores">
+    <h2>High Scores</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name/Initials</th>
+                <th>High Score</th>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+</div>
+
+</div>
+
+    <div id=container>
+        <aside id="top-left"><h2>Flatten the Curve!</h2></aside>
+        <aside id="top-right"><h2 id="score"></h2></aside>
+        <main>
+            <canvas id="game"><!-- This is where the game goes!! --></canvas>
+        </main>
+        <aside id="btm-left"><h2 id = 'contact'>Contact#</h2></aside>
+        <aside id="btm-right"><h2 id="status">Distance Your Self!</h2></aside>
+    </div>
+    <!-- <script src ='ship.js'></script> -->
+    <!-- <script src="ship.js"></script>
+    <script src="virus.js"></script> -->
+    <script src="script.js"></script>
+
+</body>
+</html>
