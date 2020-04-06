@@ -28,6 +28,7 @@ let hkeyI
 let moveEI
 let keyCode
 
+//push score and contact to divs
 function updateScore() {
  score += 18
  document.getElementById('score').textContent = score
@@ -38,11 +39,12 @@ function updateContact(){
   document.getElementById('contact').textContent = contact
 }
 
-
+//jquery start game using show and hide
 function start() {
   $('#table-body').show()
   $("#SplashScreen").show()
   $("#container").hide()
+  location.reload()
 }
 
 $("#container").hide();
@@ -337,6 +339,7 @@ function checkForGO() {
       enemies = []
       addHighScore()
       updateScores()
+      //reset()
       start()
     }
   }
