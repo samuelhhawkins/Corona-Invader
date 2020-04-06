@@ -10,9 +10,9 @@ let bullet
 let eBullet
 let enemyBullets = []
 let shooting = false;
-const ENEMY_W_H = 10
-const SOAP_W_H = 12
-const SHIP_W_H = 16
+const ENEMY_W_H = 12
+const SOAP_W_H = 30
+const SHIP_W_H = 30
 const SHOOT_KEY = 32
 const LEFT = 65
 const RIGHT =68
@@ -26,7 +26,7 @@ let gameI
 let eShootI
 let hkeyI
 let moveEI
-
+let keyCode
 
 function updateScore() {
  score += 18
@@ -40,8 +40,8 @@ function updateContact(){
 
 
 function start() {
-  $("#SplashScreen").show()
   $('#table-body').show()
+  $("#SplashScreen").show()
   $("#container").hide()
 }
 
@@ -86,23 +86,23 @@ function makeEnemy() {
     if(i < 11) {
       yPos = 5;
       xPos = 20 + (i * (ENEMY_W_H + 7))
-      imgSrc = 'resources/virus1.png'
+      imgSrc = 'resources/iconfinder_coronavirus-17_5868972 (1).png'
     } else if(i < 22) {
       yPos = 15;
       xPos = 20 + ((i - 11) * (ENEMY_W_H + 7))
-      imgSrc = 'resources/virus2.png'
+      imgSrc = 'resources/iconfinder_virus-cell-life-biology-Microorganism_5859131.png'
     } else if(i < 33) {
       yPos = 25
       xPos = 20 + ((i - 22) * (ENEMY_W_H + 7))
-      imgSrc = 'resources/virus1.png'
+      imgSrc = 'resources/iconfinder_coronavirus-17_5868972 (1).png'
     } else if(i < 44) {
       yPos = 35;
       xPos = 20 + ((i - 33) * (ENEMY_W_H + 7))
-      imgSrc = 'resources/virus2.png'
+      imgSrc = 'resources/iconfinder_virus-cell-life-biology-Microorganism_5859131.png'
     } else if(i < 55) {
       yPos = 45
       xPos = 20 + ((i - 44) * (ENEMY_W_H + 7))
-      imgSrc = 'resources/virus1.png'
+      imgSrc = 'resources/iconfinder_coronavirus-17_5868972 (1).png'
     }
     let virus = new enemy(xPos, yPos, 'white', imgSrc)
     enemies.push(virus)
@@ -158,6 +158,7 @@ const detectHit = () => {
   }
 }
 
+
 function enemyBullet(color, width, height) {
   let rand = Math.floor(Math.random() * enemies.length)
   while(!enemies[rand].alive) {
@@ -176,7 +177,7 @@ function enemyBullet(color, width, height) {
 }
 
 function Eshoot() {
-   eBullet = new enemyBullet('red', 3, 1);
+   eBullet = new enemyBullet('red', 4, 2);
    enemyBullets.push(eBullet)
 }
 
@@ -224,13 +225,13 @@ function Ship(x, y, color, width, height,  src){
   }
 }
 
- player = new Ship(20, 120, 'white', SHIP_W_H, SHIP_W_H, "resources/hero1.png");
+ player = new Ship(20, 120, 'white', SHIP_W_H, SHIP_W_H, "resources/ship.png");
 player.render();
 
 
 //player movement handler
-function handleKey(e) {
-  switch(e.keyCode) {
+function handleKey(event) {
+  switch(event.keyCode) {
     case (65):
         player.x -= 12
         break
@@ -240,38 +241,30 @@ function handleKey(e) {
     case (SHOOT_KEY):
         if(bulletTimer < timer) {
           shoot()
-          bulletTimer = 450/60 + timer
+          bulletTimer = 500/60 + timer
         }
         break
 
   }
 }
 
-function onKeyDown(e) {
-  e.preventDefault();
-  keyStates[e.keyCode] = true;
-}
-
-function onKeyUp(e) {
-  e.preventDefault();
-  keyStates[e.keyCode] = false;
-}
 //document.addEventListener('keypressed', handleKey)
 document.addEventListener('keydown', handleKey)
-//document.addEventListener('keyup', handleKey)
+//document.addEventListener('keyup', SHOOT_KEY)
 
 
 const detectPHit = () => {
   for(let i = 0; i < enemyBullets.length; i++) {
-      if(enemyBullets[i].x < ENEMY_W_H + player.x + 5 &&
-         enemyBullets[i].x + SOAP_W_H > player.x + 10 &&
-         enemyBullets[i].y < ENEMY_W_H + player.y + 10 &&
-         enemyBullets[i].y + SOAP_W_H > player.y + 8 &&
+      if(enemyBullets[i].x < ENEMY_W_H + player.x +20  &&
+         enemyBullets[i].x + SOAP_W_H > player.x + 20 &&
+         enemyBullets[i].y  < ENEMY_W_H + player.y +22 &&
+         enemyBullets[i].y + SOAP_W_H > player.y + 22 &&
          enemyBullets[i].alive ) {
           contact--
-            checkForGO()
+
           enemyBullets[i].alive = false;
           updateContact()
+          //checkForGO()
         }
     }
 }
@@ -299,7 +292,7 @@ function soap(width, height,  src){
   }
 
 function shoot() {
-   bullet = new soap(10, 10, "resources/soap.png");
+   bullet = new soap(20, 20, "resources/iconfinder_hygiene-18_4443494 (2).png");
   bullets.push(bullet)
 }
 
@@ -323,15 +316,17 @@ function checkForW() {
     }
   }
   if(win){
+    enemies = []
     makeEnemy()
+    //setInterval(moveEI * 2)
   }
 }
 
 
 
 function checkForGO() {
-  for(let i  = enemies.length - 1; i >= 0; i--) {
-    if(enemies[i].y >= player.y || contact === 0){
+  for(let i = enemies.length - 1; i >= 0; i--) {
+    if(enemies[i] && (enemies[i].y == player.y || contact == 0)){
       //if game over push score and name to leaderboard then update scores
       // and return to startscreen
       console.log('GameOver Show leaderboard')
@@ -356,10 +351,9 @@ function gameLoop () {
   moveEnemies()
   displayEnemies()
   moveBullets()
-  //Eshoot()
+
   moveEBullets()
-  checkForW()
-  checkForGO()
+
   detectPHit()
   timer++
   for(let i = 0; i < bullets.length; i++) {
@@ -372,14 +366,16 @@ function gameLoop () {
       enemyBullets[i].render()
     }
   }
+  checkForW()
+  checkForGO()
 }
 
 function runGame () {
   contact = 3
   makeEnemy()
-  gameI = setInterval(gameLoop, 60)
-  eShootI = setInterval(Eshoot, 800)
-  hkeyI = setInterval(handleKey, 30)
+  gameI = setInterval(gameLoop, 50)
+  eShootI = setInterval(Eshoot, 700)
+  //hkeyI = setInterval(handleKey, 800)
   moveEI = setInterval(moveEnemies, 150)
 }
 
@@ -409,6 +405,7 @@ const addHighScore = () => {
     // Write it back to localStorage
     localStorage.setItem(LS_NAME, stringData)
 }
+
 const getHighScores = () => {
     // Go into localStorage, fetch the high scores, turn them into JS objects
     let stringScores = localStorage.getItem(LS_NAME)
@@ -421,6 +418,7 @@ const getHighScores = () => {
     // Return it, conveniently as an array
     return arrayOfScores
 }
+
 const updateScores = () => {
     // Empty the table
     document.getElementById('table-body').innerHTML = ''
@@ -441,3 +439,4 @@ const updateScores = () => {
         document.getElementById('table-body').append(tr)
     }
 }
+updateScores()
